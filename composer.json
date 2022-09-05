@@ -1,0 +1,18 @@
+{
+    "name": "signalise/php-client",
+    "description": "Signalise PHP client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "elgentos",
+            "email": "info@elgentos.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4|^8.0|^8.1",
+        "guzzlehttp/guzzle": "^7.5",
+        "vlucas/phpdotenv": "^5.4"
+    }
+}
