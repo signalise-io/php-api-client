@@ -11,18 +11,18 @@ class Signalise
     private function loadConfig(): void
     {
         $dotenv = Dotenv::createImmutable(__DIR__);
-        $dotenv->safeLoad();
+        $dotenv->load();
     }
 
     public function getApiKey(): string
     {
         $this->loadConfig();
-        return $_ENV['SIGNALISE_API_KEY'];
+        return getenv('SIGNALISE_API_KEY');
     }
 
     public function getEndpoint(): string
     {
         $this->loadConfig();
-        return $_ENV['SIGNALISE_ENDPOINT'];
+        return getenv('SIGNALISE_ENDPOINT');
     }
 }

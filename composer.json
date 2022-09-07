@@ -14,5 +14,29 @@
         "php": "^7.4|^8.0|^8.1",
         "guzzlehttp/guzzle": "^7.5",
         "vlucas/phpdotenv": "^5.4"
+    },
+    "require-dev": {
+        "elgentos/testing-suite": "dev-main",
+        "elgentos/coding-standard-phpstorm": "dev-master",
+        "youwe/coding-standard-magento2": "^1.7.0"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "elgentos/coding-standard-phpstorm": true,
+            "phpro/grumphp-shim": true,
+            "youwe/testing-suite": true
+        }
+    },
+    "archive": {
+        "exclude": [
+            "/.gitignore",
+            "/grumphp.yml",
+            "/pdepend.xml",
+            "/phpstan.neon",
+            "/phpunit.xml",
+            "/phpcs.xml",
+            "/phpmd.xml"
+        ]
     }
 }
