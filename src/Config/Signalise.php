@@ -2,27 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Signalise\Config;
+namespace Signalise\PhpClient\Config;
 
 use Dotenv\Dotenv;
 
 class Signalise
 {
-    private function loadConfig(): void
+    public function __construct()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
     }
 
     public function getApiKey(): string
     {
-        $this->loadConfig();
-        return getenv('SIGNALISE_API_KEY');
+        return $_ENV['SIGNALISE_API_KEY'];
     }
 
     public function getEndpoint(): string
     {
-        $this->loadConfig();
-        return getenv('SIGNALISE_ENDPOINT');
+        return $_ENV['SIGNALISE_ENDPOINT'];
+    }
+
+    public function getConnects(): string
+    {
+        return $_ENV['SIGNALISE_GET_CONNECTS'];
     }
 }

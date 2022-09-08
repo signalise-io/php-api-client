@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Signalise\Client;
+namespace Signalise\PhpClient\Client;
 
 use GuzzleHttp\Client;
-use Signalise\Config\Signalise;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
+use Signalise\PhpClient\Config\Signalise;
 
 class ApiClient extends Client
 {
+    private Signalise $signalise;
+
     public function __construct(
         array $config,
         Signalise $signalise
@@ -21,10 +25,29 @@ class ApiClient extends Client
         ];
 
         $config['base_uri'] = $signalise->getEndpoint();
+        $this->signalise    = $signalise;
         parent::__construct($config);
     }
 
+    /**
+     * @throws GuzzleException
+     */
+    private function getConnects(): ResponseInterface
+    {
+        return $this->get(
+            sprintf(
+                '%s/%s',
+                $this->signalise->getEndpoint(),
+                $this->signalise->getConnects()
+            )
+        );
+    }
+
+    /**
+     * @throws GuzzleException
+     */
     public function pushData()
     {
+        $getConnects = $this->getConnects()->getBody();
     }
 }
