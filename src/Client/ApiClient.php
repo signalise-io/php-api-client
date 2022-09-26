@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Copyright Elgentos BV. All rights reserved.
+ * https://www.elgentos.nl/
+ */
+
 declare(strict_types=1);
 
 namespace Signalise\PhpClient\Client;
@@ -7,47 +12,134 @@ namespace Signalise\PhpClient\Client;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
-use Signalise\PhpClient\Config\Signalise;
+use Signalise\PhpClient\Exception\ResponseException;
+use Signalise\PhpClient\Traits\FailedResponse;
 
-class ApiClient extends Client
+class ApiClient
 {
-    private Signalise $signalise;
+    use FailedResponse;
+
+    private Client $client;
+
+    private string $apiKey;
+
+    private const SIGNALISE_ENDPOINT           = 'https://signalise.io';
+    private const SIGNALISE_GET_CONNECTS       = '/api/v1/connects';
+    private const SIGNALISE_POST_ORDER_HISTORY = '/api/v1/connects/{{connectId}}/history';
+    private const SIGNALISE_GET_HISTORY_STATUS = '/api/v1/connects/{{connectId}}/history/status';
 
     public function __construct(
-        array $config,
-        Signalise $signalise
+      Client $client
     ) {
-        $config['headers'] = [
-            'User-Agent' => 'SignaliseApiClient / PHP ' . phpversion(),
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
-            'X-Authorization' => $signalise->getApiKey()
-        ];
-
-        $config['base_uri'] = $signalise->getEndpoint();
-        $this->signalise    = $signalise;
-        parent::__construct($config);
+        $this->client = $client;
     }
 
-    /**
-     * @throws GuzzleException
-     */
-    private function getConnects(): ResponseInterface
+    private function setApiKey(string $apiKey): void
     {
-        return $this->get(
-            sprintf(
-                '%s/%s',
-                $this->signalise->getEndpoint(),
-                $this->signalise->getConnects()
-            )
+        $this->apiKey = $apiKey;
+    }
+
+    private function getHeaders(): array
+    {
+        return [
+            'User-Agent' => 'ApiClient / PHP ' . phpversion(),
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+            'X-Authorization' => $this->apiKey
+        ];
+    }
+
+    private function createPostOrderHistoryUri(string $connectId): string
+    {
+        return sprintf(
+            '%s/%s',
+            rtrim(self::SIGNALISE_ENDPOINT),
+            str_replace(self::SIGNALISE_POST_ORDER_HISTORY, '{{connectId}}', $connectId)
+        );
+    }
+
+    private function createHistoryStatusUri(string $connectId): string
+    {
+        return sprintf(
+            '%s/%s',
+            rtrim(self::SIGNALISE_ENDPOINT),
+            str_replace(self::SIGNALISE_GET_HISTORY_STATUS, '{{connectId}}', $connectId)
         );
     }
 
     /**
      * @throws GuzzleException
      */
-    public function pushData()
+    private function get(string $call): ResponseInterface
     {
-        $getConnects = $this->getConnects()->getBody();
+        return $this->client->request(
+            'GET',
+            sprintf('%s/%s',
+                rtrim(self::SIGNALISE_ENDPOINT, '/'),
+                $call
+            ),
+            [
+                'headers' => $this->getHeaders()
+            ]
+        );
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    private function post(string $serializedData, string $connectId): ResponseInterface
+    {
+        return $this->client->request(
+            'POST',
+            $this->createPostOrderHistoryUri($connectId),
+            [
+                'headers' => $this->getHeaders(),
+                'body' => $serializedData
+            ]
+        );
+    }
+
+    /**
+     * @throws ResponseException|GuzzleException
+     */
+    public function getConnects(string $apiKey)
+    {
+        $this->setApiKey($apiKey);
+
+        $response = $this->get(self::SIGNALISE_GET_CONNECTS);
+
+        self::unableProcessResponse($response);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * @throws ResponseException|GuzzleException
+     */
+    public function getHistoryStatus(string $apiKey, string $connectId)
+    {
+        $this->setApiKey($apiKey);
+
+        $response = $this->get(
+            $this->createHistoryStatusUri($connectId)
+        );
+
+        self::unableProcessResponse($response);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * @throws ResponseException|GuzzleException
+     */
+    public function postOrderHistory(string $apiKey, string $serializedData, string $connectId)
+    {
+        $this->setApiKey($apiKey);
+
+        $response = $this->post($serializedData, $connectId);
+
+        self::unableProcessResponse($response);
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 }
