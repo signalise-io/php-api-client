@@ -28,9 +28,8 @@ class ApiClient
     private const SIGNALISE_POST_ORDER_HISTORY = '/api/v1/connects/{{connectId}}/history';
     private const SIGNALISE_GET_HISTORY_STATUS = '/api/v1/connects/{{connectId}}/history/status';
 
-    public function __construct(
-      Client $client
-    ) {
+    public function __construct(Client $client)
+    {
         $this->client = $client;
     }
 
@@ -49,21 +48,12 @@ class ApiClient
         ];
     }
 
-    private function createPostOrderHistoryUri(string $connectId): string
+    private function createConnectIdUri(string $connectId, string $param): string
     {
         return sprintf(
             '%s/%s',
             rtrim(self::SIGNALISE_ENDPOINT),
-            str_replace(self::SIGNALISE_POST_ORDER_HISTORY, '{{connectId}}', $connectId)
-        );
-    }
-
-    private function createHistoryStatusUri(string $connectId): string
-    {
-        return sprintf(
-            '%s/%s',
-            rtrim(self::SIGNALISE_ENDPOINT),
-            str_replace(self::SIGNALISE_GET_HISTORY_STATUS, '{{connectId}}', $connectId)
+            str_replace('{{connectId}}', $connectId, $param)
         );
     }
 
@@ -74,10 +64,7 @@ class ApiClient
     {
         return $this->client->request(
             'GET',
-            sprintf('%s/%s',
-                rtrim(self::SIGNALISE_ENDPOINT, '/'),
-                $call
-            ),
+            sprintf('%s/%s', rtrim(self::SIGNALISE_ENDPOINT, '/'), $call),
             [
                 'headers' => $this->getHeaders()
             ]
@@ -91,7 +78,7 @@ class ApiClient
     {
         return $this->client->request(
             'POST',
-            $this->createPostOrderHistoryUri($connectId),
+            $this->createConnectIdUri($connectId, self::SIGNALISE_POST_ORDER_HISTORY),
             [
                 'headers' => $this->getHeaders(),
                 'body' => $serializedData
@@ -102,7 +89,7 @@ class ApiClient
     /**
      * @throws ResponseException|GuzzleException
      */
-    public function getConnects(string $apiKey)
+    public function getConnects(string $apiKey): array
     {
         $this->setApiKey($apiKey);
 
@@ -116,12 +103,12 @@ class ApiClient
     /**
      * @throws ResponseException|GuzzleException
      */
-    public function getHistoryStatus(string $apiKey, string $connectId)
+    public function getHistoryStatus(string $apiKey, string $connectId): array
     {
         $this->setApiKey($apiKey);
 
         $response = $this->get(
-            $this->createHistoryStatusUri($connectId)
+            $this->createConnectIdUri($connectId, self::SIGNALISE_GET_HISTORY_STATUS)
         );
 
         self::unableProcessResponse($response);
@@ -132,7 +119,7 @@ class ApiClient
     /**
      * @throws ResponseException|GuzzleException
      */
-    public function postOrderHistory(string $apiKey, string $serializedData, string $connectId)
+    public function postOrderHistory(string $apiKey, string $serializedData, string $connectId): array
     {
         $this->setApiKey($apiKey);
 
