@@ -32,7 +32,7 @@ class FailedResponseTest extends TestCase
     {
         $subject = $this->getObjectForTrait(FailedResponse::class);
 
-        if ($statusCode !== StatusCodeInterface::STATUS_OK) {
+        if ($statusCode !== StatusCodeInterface::STATUS_CREATED) {
             self::expectException(ResponseException::class);
         }
 
@@ -58,7 +58,7 @@ class FailedResponseTest extends TestCase
     {
         return [
             'valid' => [
-                'statusCode' => StatusCodeInterface::STATUS_OK
+                'statusCode' => StatusCodeInterface::STATUS_CREATED
             ],
             'invalid' => [
                 'statusCode' => StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY

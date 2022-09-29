@@ -20,7 +20,7 @@ trait FailedResponse
      */
     public function unableProcessResponse(ResponseInterface $response)
     {
-        if ($response->getStatusCode() !== StatusCodeInterface::STATUS_OK) {
+        if ($response->getStatusCode() !== StatusCodeInterface::STATUS_CREATED) {
             throw new ResponseException(
                 sprintf('Unable to process response: %s', $response->getReasonPhrase())
             );

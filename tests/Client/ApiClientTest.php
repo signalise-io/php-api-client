@@ -81,7 +81,7 @@ class ApiClientTest extends TestCase
             $this->createPostClientMock($apiKey, $data, $message, $statusCode, $connectId)
         );
 
-        if ($statusCode !== StatusCodeInterface::STATUS_OK) {
+        if ($statusCode !== StatusCodeInterface::STATUS_CREATED) {
             self::expectException(ResponseException::class);
         }
 
@@ -119,7 +119,7 @@ class ApiClientTest extends TestCase
         $response->expects(self::atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(
-                StatusCodeInterface::STATUS_OK
+                StatusCodeInterface::STATUS_CREATED
             );
 
         $response->expects(self::atLeastOnce())
@@ -195,7 +195,7 @@ class ApiClientTest extends TestCase
             );
 
         $response->expects(
-            $statusCode !== StatusCodeInterface::STATUS_OK ? self::never() : self::once()
+            $statusCode !== StatusCodeInterface::STATUS_CREATED ? self::never() : self::once()
         )
             ->method('getBody')
             ->willReturn(
@@ -212,7 +212,7 @@ class ApiClientTest extends TestCase
         $streamInterface = $this->createMock(StreamInterface::class);
 
         $streamInterface->expects(
-            $statusCode !== StatusCodeInterface::STATUS_OK ? self::never() : self::once()
+            $statusCode !== StatusCodeInterface::STATUS_CREATED ? self::never() : self::once()
         )
             ->method('getContents')
             ->willReturn(
@@ -266,7 +266,7 @@ class ApiClientTest extends TestCase
                     ]
                 }',
                 'message' => '{ "message": "processed: 1 records" }',
-                'statusCode' => StatusCodeInterface::STATUS_OK,
+                'statusCode' => StatusCodeInterface::STATUS_CREATED,
                 'apiKey' => '43224352',
                 'connectId' => '7e618144-3e5f-11ed-b878-0242ac120002'
             ],
