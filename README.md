@@ -1,5 +1,4 @@
 # Signalise - PHP Client
-***
 
 This is a PHP client for interacting with the Signalise API. it can do the follow things
 
@@ -9,12 +8,10 @@ This is a PHP client for interacting with the Signalise API. it can do the follo
 - **/api/v1/connects/{{connectId}}/history/status** - Get information about the last order that has been processed.
 
 ## Requirements
-***
 - PHP >= 7.4
 - Composer
 
 ## Installation
-***
 
 Install via composer.
 
@@ -23,7 +20,6 @@ composer require signalise/php-client
 ```
 
 ## Getting started
-***
 
 ### Get Connects
 
@@ -129,7 +125,6 @@ public function getHistoryStatus()
 ```
 
 ## Support
-***
 
 Signalise PHP Client is made by [Ndottens](https://github.com/Ndottens).
 
