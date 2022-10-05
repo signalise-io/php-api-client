@@ -1,0 +1,52 @@
+{
+    "name": "signalise/php-client",
+    "description": "Signalise PHP client",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "elgentos",
+            "email": "info@elgentos.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4|^8.0|^8.1",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "require-dev": {
+        "elgentos/testing-suite": "dev-main",
+        "elgentos/coding-standard-phpstorm": "dev-master",
+        "youwe/coding-standard-magento2": "^1.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Signalise\\PhpClient\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Signalise\\PhpClient\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "elgentos/coding-standard-phpstorm": true,
+            "phpro/grumphp-shim": true,
+            "youwe/testing-suite": true
+        }
+    },
+    "archive": {
+        "exclude": [
+            "/.gitignore",
+            "/tests",
+            "/grumphp.yml",
+            "/pdepend.xml",
+            "/phpstan.neon",
+            "/phpunit.xml",
+            "/phpcs.xml",
+            "/phpmd.xml"
+        ]
+    }
+}
