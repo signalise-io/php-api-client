@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Signalise\PhpClient\Traits;
 
-use _PHPStan_3bfe2e67c\Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
+use Signalise\PhpClient\enum\StatusCodes;
 use Signalise\PhpClient\Exception\ResponseException;
 
 trait FailedResponse
@@ -20,7 +20,7 @@ trait FailedResponse
      */
     public function unableProcessResponse(ResponseInterface $response)
     {
-        if ($response->getStatusCode() !== StatusCodeInterface::STATUS_CREATED) {
+        if ($response->getStatusCode() !== StatusCodes::STATUS_CREATED) {
             throw new ResponseException(
                 sprintf('Unable to process response: %s', $response->getReasonPhrase())
             );

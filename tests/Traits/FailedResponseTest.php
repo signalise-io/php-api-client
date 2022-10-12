@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Signalise\PhpClient\Test\Traits;
 
-use _PHPStan_3bfe2e67c\Fig\Http\Message\StatusCodeInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
+use Signalise\PhpClient\enum\StatusCodes;
 use Signalise\PhpClient\Exception\ResponseException;
 use Signalise\PhpClient\Traits\FailedResponse;
 
@@ -32,7 +32,7 @@ class FailedResponseTest extends TestCase
     {
         $subject = $this->getObjectForTrait(FailedResponse::class);
 
-        if ($statusCode !== StatusCodeInterface::STATUS_CREATED) {
+        if ($statusCode !== StatusCodes::STATUS_CREATED) {
             self::expectException(ResponseException::class);
         }
 
@@ -58,10 +58,10 @@ class FailedResponseTest extends TestCase
     {
         return [
             'valid' => [
-                'statusCode' => StatusCodeInterface::STATUS_CREATED
+                'statusCode' => StatusCodes::STATUS_CREATED
             ],
             'invalid' => [
-                'statusCode' => StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY
+                'statusCode' => StatusCodes::STATUS_UNPROCESSABLE_ENTITY
             ]
         ];
     }

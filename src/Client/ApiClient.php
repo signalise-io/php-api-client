@@ -23,10 +23,10 @@ class ApiClient
 
     private string $apiKey;
 
-    private const SIGNALISE_ENDPOINT           = 'https://signalise.io';
-    private const SIGNALISE_GET_CONNECTS       = '/api/v1/connects';
-    private const SIGNALISE_POST_ORDER_HISTORY = '/api/v1/connects/{{connectId}}/history';
-    private const SIGNALISE_GET_HISTORY_STATUS = '/api/v1/connects/{{connectId}}/history/status';
+    private const SIGNALISE_ENDPOINT           = 'https://signalise.2show.nl';
+    private const SIGNALISE_GET_CONNECTS       = 'api/v1/connects';
+    private const SIGNALISE_POST_ORDER_HISTORY = 'api/v1/connects/{{connectId}}/history';
+    private const SIGNALISE_GET_HISTORY_STATUS = 'api/v1/connects/{{connectId}}/history/status';
 
     public function __construct(Client $client)
     {
@@ -44,7 +44,7 @@ class ApiClient
             'User-Agent' => 'ApiClient / PHP ' . phpversion(),
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
-            'X-Authorization' => $this->apiKey
+            'Authorization' => sprintf('Bearer %s', $this->apiKey)
         ];
     }
 
