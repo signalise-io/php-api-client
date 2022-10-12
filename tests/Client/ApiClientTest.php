@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Signalise\PhpClient\Test\Client;
 
-use _PHPStan_3bfe2e67c\Fig\Http\Message\StatusCodeInterface;
+use Signalise\PhpClient\enum\StatusCodes;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
@@ -25,7 +25,7 @@ use Signalise\PhpClient\Exception\ResponseException;
  */
 class ApiClientTest extends TestCase
 {
-    private const SIGNALISE_POST_ORDER_HISTORY = '/api/v1/connects/{{connectId}}/history';
+    private const SIGNALISE_POST_ORDER_HISTORY = 'api/v1/connects/{{connectId}}/history';
 
     /**
      * @return void
@@ -81,7 +81,7 @@ class ApiClientTest extends TestCase
             $this->createPostClientMock($apiKey, $data, $message, $statusCode, $connectId)
         );
 
-        if ($statusCode !== StatusCodeInterface::STATUS_CREATED) {
+        if ($statusCode !== StatusCodes::STATUS_CREATED) {
             self::expectException(ResponseException::class);
         }
 
@@ -119,7 +119,7 @@ class ApiClientTest extends TestCase
         $response->expects(self::atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(
-                StatusCodeInterface::STATUS_CREATED
+                StatusCodes::STATUS_CREATED
             );
 
         $response->expects(self::atLeastOnce())
@@ -195,7 +195,7 @@ class ApiClientTest extends TestCase
             );
 
         $response->expects(
-            $statusCode !== StatusCodeInterface::STATUS_CREATED ? self::never() : self::once()
+            $statusCode !== StatusCodes::STATUS_CREATED ? self::never() : self::once()
         )
             ->method('getBody')
             ->willReturn(
@@ -212,7 +212,7 @@ class ApiClientTest extends TestCase
         $streamInterface = $this->createMock(StreamInterface::class);
 
         $streamInterface->expects(
-            $statusCode !== StatusCodeInterface::STATUS_CREATED ? self::never() : self::once()
+            $statusCode !== StatusCodes::STATUS_CREATED ? self::never() : self::once()
         )
             ->method('getContents')
             ->willReturn(
@@ -266,14 +266,14 @@ class ApiClientTest extends TestCase
                     ]
                 }',
                 'message' => '{ "message": "processed: 1 records" }',
-                'statusCode' => StatusCodeInterface::STATUS_CREATED,
+                'statusCode' => StatusCodes::STATUS_CREATED,
                 'apiKey' => '43224352',
                 'connectId' => '7e618144-3e5f-11ed-b878-0242ac120002'
             ],
             'failed' => [
                 'data' => 'unprocessable entry',
                 'message' => '{ "message": "Error while uploading" }',
-                'statusCode' => StatusCodeInterface::STATUS_UNPROCESSABLE_ENTITY,
+                'statusCode' => StatusCodes::STATUS_UNPROCESSABLE_ENTITY,
                 'apiKey' => '23526382',
                 'connectId' => '928a61d6-3e5f-11ed-b878-0242ac120002'
             ]
