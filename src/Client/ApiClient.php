@@ -23,7 +23,7 @@ class ApiClient
 
     private string $apiKey;
 
-    private const SIGNALISE_ENDPOINT           = 'https://signalise.2show.nl';
+    private const SIGNALISE_ENDPOINT           = 'https://signalise-staging.2show.nl';
     private const SIGNALISE_GET_CONNECTS       = 'api/v1/connects';
     private const SIGNALISE_POST_ORDER_HISTORY = 'api/v1/connects/{{connectId}}/history';
     private const SIGNALISE_GET_HISTORY_STATUS = 'api/v1/connects/{{connectId}}/history/status';
