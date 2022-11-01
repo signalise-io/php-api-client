@@ -45,7 +45,7 @@ class FailedResponseTest extends TestCase
     {
         $response = $this->createMock(ResponseInterface::class);
 
-        $response->expects(self::once())
+        $response->expects(self::atLeastOnce())
             ->method('getStatusCode')
             ->willReturn(
                 $statusCode
