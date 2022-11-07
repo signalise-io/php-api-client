@@ -27,6 +27,8 @@ class ApiClientTest extends TestCase
 {
     private const SIGNALISE_POST_ORDER_HISTORY = 'api/v1/connects/{{connectId}}/history';
 
+    private const SIGNALISE_API_URL = 'https://signalise.com';
+
     /**
      * @return void
      *
@@ -40,7 +42,7 @@ class ApiClientTest extends TestCase
             $this->createClientMock('getConnects')
         );
 
-        $subject->getConnects('4232433727');
+        $subject->getConnects(self::SIGNALISE_API_URL, '4232433727');
     }
 
     /**
@@ -55,7 +57,7 @@ class ApiClientTest extends TestCase
             $this->createClientMock('getHistoryStatus')
         );
 
-        $subject->getHistoryStatus('438243282382', '43828388223');
+        $subject->getHistoryStatus(self::SIGNALISE_API_URL, '438243282382', '43828388223');
     }
 
     /**
@@ -64,7 +66,7 @@ class ApiClientTest extends TestCase
      * @covers ::__construct
      * @covers ::postOrderHistory
      * @covers ::post
-     * @covers ::setApiKey
+     * @covers ::setUp
      * @covers ::getHeaders
      * @covers ::createConnectIdUri
      *
@@ -85,7 +87,7 @@ class ApiClientTest extends TestCase
             self::expectException(ResponseException::class);
         }
 
-        $subject->postOrderHistory($apiKey, $data, $connectId);
+        $subject->postOrderHistory(self::SIGNALISE_API_URL, $apiKey, $data, $connectId);
     }
 
     /**
@@ -160,8 +162,8 @@ class ApiClientTest extends TestCase
 
         $subject = $this->createMock(ApiClient::class);
 
-        $this->callPrivateFunction($subject, 'setApiKey')
-            ->invoke($subject, $apiKey);
+        $this->callPrivateFunction($subject, 'setUp')
+            ->invoke($subject, self::SIGNALISE_API_URL, $apiKey);
 
         $client->expects(self::atLeastOnce())
             ->method('request')
