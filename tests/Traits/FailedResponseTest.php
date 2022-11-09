@@ -32,7 +32,7 @@ class FailedResponseTest extends TestCase
     {
         $subject = $this->getObjectForTrait(FailedResponse::class);
 
-        if ($statusCode !== StatusCodes::STATUS_CREATED) {
+        if ($statusCode !== StatusCodes::STATUS_CREATED && $statusCode !== StatusCodes::STATUS_OK) {
             self::expectException(ResponseException::class);
         }
 
@@ -57,7 +57,10 @@ class FailedResponseTest extends TestCase
     public function setDataProvider(): array
     {
         return [
-            'valid' => [
+            'valid_1' => [
+                'statusCode' => StatusCodes::STATUS_OK
+            ],
+            'valid_2' => [
                 'statusCode' => StatusCodes::STATUS_CREATED
             ],
             'invalid' => [

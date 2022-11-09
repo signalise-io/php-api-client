@@ -95,8 +95,10 @@ class ApiClient
     /**
      * @throws ResponseException|GuzzleException
      */
-    public function getConnects(string $apiUrl, string $apiKey): array
-    {
+    public function getConnects(
+        string $apiUrl,
+        string $apiKey
+    ): array {
         $this->setUp($apiUrl, $apiKey);
 
         $response = $this->get(self::SIGNALISE_GET_CONNECTS);

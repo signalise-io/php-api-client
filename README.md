@@ -30,13 +30,13 @@ Signalise know which store you want to process order(s) to.**
 
 
 ```php
-/**
- * @throws GuzzleException|ResponseException
- */
- public function getConnects()
- {
-    $connectIds = $this->apiClient->getConnects($apiKey)
- }
+    /**
+     * @throws ResponseException|GuzzleException
+     */
+    public function getConnects(
+        string $apiUrl,
+        string $apiKey
+    ): array
 ```
 
 ### Post Order History
@@ -46,17 +46,15 @@ The post Order history endpoint is used to process order(s) to Signalise.
 
 **It wil either throw an exception or an array with the message that you successfully processed x records**
 ```php
-/**
-* @throws GuzzleException|ResponseException
-*/
-public function postOrderHistory(string $serializedData)
-{
-      $this->apiClient->postOrderHistory(
-            $apiKey,
-            $serializedData,
-            $connectId
-      );
-}
+   /**
+    * @throws ResponseException|GuzzleException
+    */
+    public function postOrderHistory(
+        string $apiUrl,
+        string $apiKey,
+        string $serializedData,
+        string $connectId
+    ): array
 ```
 
 > **in order to successful post an order to Signalise you need to use this format.**
@@ -111,17 +109,14 @@ public function postOrderHistory(string $serializedData)
 
 The get history status endpoint will retrieve information about the last processed item.
 ```php
-/**
- * @throws GuzzleException|ResponseException
- */
-public function getHistoryStatus()
-{
-    $lastOrderHistory = 
-            $this->apiClient->getHistoryStatus(
-                $apiKey,
-                $connectId
-            );        
-}
+    /**
+     * @throws ResponseException|GuzzleException
+     */
+    public function getHistoryStatus(
+        string $apiUrl,
+        string $apiKey,
+        string $connectId
+    ): array
 ```
 
 ## Support

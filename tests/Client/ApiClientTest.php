@@ -228,13 +228,12 @@ class ApiClientTest extends TestCase
     {
         $returnValue = [
             'getConnects' => '[
-                {"id": "{{1234-5678-9012}}", "name":"shop_1"},
-                {"id": "{{9012-1234-5678}", "name":"shop_2"}
+              "d11da0b6-e447-4c76-b5e1-cd7aeaf5f6b8"
             ]',
             'getHistoryStatus' => '{
                     "last_post_date": "2021-02-18 16:00:04",
                     "last_order_id": 18
-                }'
+            }'
         ];
 
         return $returnValue[$call];
@@ -243,7 +242,7 @@ class ApiClientTest extends TestCase
     public function setDataProvider(): array
     {
         return [
-            'successful' => [
+            'valid' => [
                 'data' => '{
                     "records": [
                         {
@@ -272,7 +271,7 @@ class ApiClientTest extends TestCase
                 'apiKey' => '43224352',
                 'connectId' => '7e618144-3e5f-11ed-b878-0242ac120002'
             ],
-            'failed' => [
+            'invalid' => [
                 'data' => 'unprocessable entry',
                 'message' => '{ "message": "Error while uploading" }',
                 'statusCode' => StatusCodes::STATUS_UNPROCESSABLE_ENTITY,
