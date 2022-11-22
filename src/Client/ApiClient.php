@@ -20,12 +20,12 @@ class ApiClient
 {
     use FailedResponse;
 
-    private const SIGNALISE_POST_CONNECTS         = 'api/v1/connects';
-    private const SIGNALISE_GET_CONNECTS          = 'api/v1/connects';
-    private const SIGNALISE_POST_ORDER_HISTORY    = 'api/v1/connects/{{connectId}}/history';
-    private const SIGNALISE_GET_HISTORY_STATUS    = 'api/v1/connects/{{connectId}}/history/status';
-    private const CREATE_CONNECT_CONTENT_TYPE     = 'application/x-www-form-urlencoded';
-    private const POST_ORDER_HISTORY_CONTENT_TYPE = 'application/json';
+    private const SIGNALISE_POST_CONNECTS      = 'api/v1/connects';
+    private const SIGNALISE_GET_CONNECTS       = 'api/v1/connects';
+    private const SIGNALISE_POST_ORDER_HISTORY = 'api/v1/connects/{{connectId}}/history';
+    private const SIGNALISE_GET_HISTORY_STATUS = 'api/v1/connects/{{connectId}}/history/status';
+    private const CREATE_CONNECT_CONTENT_TYPE  = 'application/x-www-form-urlencoded';
+    private const ORDER_HISTORY_CONTENT_TYPE   = 'application/json';
 
     private Client $client;
 
@@ -81,7 +81,7 @@ class ApiClient
             CallMethods::GET_METHOD,
             $this->createUrl($call),
             [
-                'headers' => $this->getHeaders(self::POST_ORDER_HISTORY_CONTENT_TYPE)
+                'headers' => $this->getHeaders(self::ORDER_HISTORY_CONTENT_TYPE)
             ]
         );
     }
@@ -95,7 +95,7 @@ class ApiClient
             CallMethods::POST_METHOD,
             $this->createConnectIdUri($connectId, self::SIGNALISE_POST_ORDER_HISTORY),
             [
-                'headers' => $this->getHeaders(self::POST_ORDER_HISTORY_CONTENT_TYPE),
+                'headers' => $this->getHeaders(self::ORDER_HISTORY_CONTENT_TYPE),
                 'body' => $serializedData
             ]
         );
