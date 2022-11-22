@@ -173,7 +173,7 @@ class ApiClientTest extends TestCase
                     ->invoke($subject, $connectId, self::SIGNALISE_POST_ORDER_HISTORY),
                 [
                     'headers' => $this->callPrivateFunction($subject, 'getHeaders')
-                        ->invoke($subject),
+                        ->invoke($subject, 'application/json'),
                     'body' => $data
                 ]
             )
