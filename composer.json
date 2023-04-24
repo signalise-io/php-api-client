@@ -17,7 +17,7 @@
     "require-dev": {
         "elgentos/testing-suite": "dev-main",
         "elgentos/coding-standard-phpstorm": "dev-master",
-        "youwe/coding-standard-magento2": "^1.7.0"
+        "youwe/coding-standard-magento2": "^2.1.2"
     },
     "autoload": {
         "psr-4": {
