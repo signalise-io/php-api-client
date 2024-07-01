@@ -15,8 +15,8 @@
         "guzzlehttp/guzzle": "^7.5"
     },
     "require-dev": {
-        "elgentos/testing-suite": "dev-main",
-        "elgentos/coding-standard-phpstorm": "dev-master",
+        "elgentos/testing-suite": "^0",
+        "elgentos/coding-standard-phpstorm": "^1",
         "youwe/coding-standard-magento2": "^2.1.2"
     },
     "autoload": {
@@ -34,7 +34,9 @@
         "allow-plugins": {
             "elgentos/coding-standard-phpstorm": true,
             "phpro/grumphp-shim": true,
-            "youwe/testing-suite": true
+            "youwe/testing-suite": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "digitalrevolution/php-codesniffer-baseline": true
         }
     },
     "archive": {
